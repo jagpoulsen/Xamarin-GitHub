@@ -1,7 +1,6 @@
 using System;
 using System.Reactive.Linq;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using Xamarin_GitHub.Data.Entity;
 
 namespace Xamarin_GitHub.Data.Api

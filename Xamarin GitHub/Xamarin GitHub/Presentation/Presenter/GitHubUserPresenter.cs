@@ -10,19 +10,19 @@ namespace Xamarin_GitHub.Presentation.Presenter
 {
     public class GitHubUserPresenter
     {
-        GetAllGitHubUsersUseCase UseCase = new GetAllGitHubUsersUseCase();
+        private readonly GetAllGitHubUsersUseCase _useCase = new GetAllGitHubUsersUseCase();
         public GitHubUserView View { get; set; }
 
         public void LoadGithubUsers(string query)
         {
-            UseCase.Execute(new GitHubUserListListObserver { Presenter = this}, new Params { Query = query });
+            _useCase.Execute(new GitHubUserListListObserver { Presenter = this}, new Params { Query = query });
 
             View.OnLoadingStart();
         }
 
         class GitHubUserListListObserver : DefaultObserver<List<GitHubUserEntity>>
         {
-            GitHubUserMapper Mapper = new GitHubUserMapper();
+            private readonly GitHubUserMapper _mapper = new GitHubUserMapper();
 
             public GitHubUserPresenter Presenter { get; set; }
 
@@ -47,7 +47,7 @@ namespace Xamarin_GitHub.Presentation.Presenter
             {
                 if (value != null)
                 {
-                    Presenter.View.Render(Mapper.TransformList(value));
+                    Presenter.View.Render(_mapper.TransformList(value));
                 }
             }
         }

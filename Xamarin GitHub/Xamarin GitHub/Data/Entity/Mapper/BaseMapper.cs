@@ -1,19 +1,15 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Xamarin_GitHub.Data.Entity.Mapper
 {
-    public abstract class BaseMapper<Model, Entity>
+    public abstract class BaseMapper<TModel, TEntity>
     {
-        public abstract Model Transform(Entity entity);
+        protected abstract TModel Transform(TEntity entity);
 
-        public List<Model> TransformList(List<Entity> list)
+        public List<TModel> TransformList(IEnumerable<TEntity> list)
         {
-            var result = new List<Model>();
-            foreach (var entity in list)
-            {
-                result.Add(Transform(entity));
-            }
-            return result;
+            return list.Select(Transform).ToList();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Xamarin_GitHub.Presentation.View
     {
         void OnLoadingStart();
 
-        void Render(List<GitHubUserModel> list);
+        void Render(IEnumerable<GitHubUserModel> list);
 
         void RenderError(Exception error);
 

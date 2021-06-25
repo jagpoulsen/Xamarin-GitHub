@@ -9,7 +9,7 @@ namespace Xamarin_GitHub.Domain.UseCase
     {
         private readonly IRepository _repository = new GitHubUserRepository();
 
-        public override IObservable<List<GitHubUserEntity>> BuildUseCaseObservable(Params param)
+        protected override IObservable<List<GitHubUserEntity>> BuildUseCaseObservable(Params param)
         {
             return _repository.GitHubUsers(param.Query);
         }

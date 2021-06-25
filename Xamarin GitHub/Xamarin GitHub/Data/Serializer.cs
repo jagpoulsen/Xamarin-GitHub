@@ -4,19 +4,19 @@ namespace Xamarin_GitHub.Data
 {
     public class Serializer<T>
     {
-        public JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
         {
             MissingMemberHandling = MissingMemberHandling.Ignore
         };
 
         public T FromJson(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json, JsonSerializerSettings);
+            return JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);
         }
 
         public string ToJson(T data)
         {
-            return JsonConvert.SerializeObject(data, JsonSerializerSettings);
+            return JsonConvert.SerializeObject(data, _jsonSerializerSettings);
         }
     }
 }

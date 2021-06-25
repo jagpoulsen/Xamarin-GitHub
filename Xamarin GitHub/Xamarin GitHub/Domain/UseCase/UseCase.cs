@@ -4,24 +4,24 @@ using System.Threading.Tasks;
 
 namespace Xamarin_GitHub.Domain.UseCase
 {
-    public abstract class UseCase<T, P>
+    public abstract class UseCase<T, TP>
     {
-        List<IDisposable> Disposables;
+        private readonly List<IDisposable> _disposables;
 
-        public abstract IObservable<T> BuildUseCaseObservable(P param);
+        protected abstract IObservable<T> BuildUseCaseObservable(TP param);
 
-        public UseCase()
+        protected UseCase()
         {
-            Disposables = new List<IDisposable>();
+            _disposables = new List<IDisposable>();
         }
 
-        public void Execute(IObserver<T> observer, P param)
+        public void Execute(IObserver<T> observer, TP param)
         {
             if (observer != null)
             {
                 Task.Run(() => 
                 {
-                    IObservable<T> observable = BuildUseCaseObservable(param);
+                    var observable = BuildUseCaseObservable(param);
                     AddDisposable(observable.SubscribeSafe(observer));
                 });
             }
@@ -30,17 +30,17 @@ namespace Xamarin_GitHub.Domain.UseCase
         //TODO use Dispose
         public void Dispose()
         {
-            foreach (var disposable in Disposables)
+            foreach (var disposable in _disposables)
             {
                 disposable.Dispose();
             }
         }
 
-        void AddDisposable(IDisposable disposable)
+        private void AddDisposable(IDisposable disposable)
         {
-            if (Disposables != null && disposable != null)
+            if (_disposables != null && disposable != null)
             {
-                Disposables.Add(disposable);
+                _disposables.Add(disposable);
             }
         }
     }

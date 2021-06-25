@@ -11,13 +11,13 @@ namespace Xamarin_GitHub.Presentation.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GitHubUserView :  ContentPage, IGitHubUserView
 	{
-		enum ViewState
+		private enum ViewState
 		{
 			Normal, Error, Loading, Offline
 		}
 
 		private ObservableCollection<GitHubUserModel> GitHubUsers { get; set; }
-		readonly GitHubUserPresenter _presenter;
+		private readonly GitHubUserPresenter _presenter;
 		public GitHubUserView()
 		{
 			InitializeComponent();
@@ -30,11 +30,10 @@ namespace Xamarin_GitHub.Presentation.View
 		}
 
 		#region View commands
-		
-		public async void OnTap(object sender, ItemTappedEventArgs e)
+
+		private async void OnTap(object sender, ItemTappedEventArgs e)
 		{
-			var item = e.Item as GitHubUserModel;
-			await DisplayAlert("GitHub User", item.Name, "OK");
+			if (e.Item is GitHubUserModel item) await DisplayAlert("GitHub User", item.Name, "OK");
 		}
 		#endregion View commands
 
@@ -43,7 +42,7 @@ namespace Xamarin_GitHub.Presentation.View
 			UpdateViewState(ViewState.Loading);
 		}
 
-		public void Render(List<GitHubUserModel> list)
+		public void Render(IEnumerable<GitHubUserModel> list)
 		{
 			Device.BeginInvokeOnMainThread(() => 
 			{
